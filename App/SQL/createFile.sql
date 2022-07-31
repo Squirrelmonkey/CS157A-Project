@@ -1,0 +1,299 @@
+CREATE TABLE Patient (
+PatientID VARCHAR(100),
+PatientFNAME VARCHAR(100) NOT NULL,
+PatientLNAME VARCHAR(100) NOT NULL,
+GENDER VARCHAR(50) ,
+MedicalHistory VARCHAR(100) ,
+BIRTHDATE VARCHAR(50) ,
+Address VARCHAR(100) ,
+ContactName VARCHAR(100) ,
+PhoneNumber VARCHAR(100),
+PRIMARY KEY(PatientID)
+);
+
+CREATE TABLE Insurance(
+InsuranceID VARCHAR(100),
+InsCoverage VARCHAR(100),
+InsPrice INTEGER,
+InsFullName VARCHAR(100) NOT NULL,
+PRIMARY KEY(InsuranceID)
+);
+
+CREATE TABLE HasInsurance(
+PatientID VARCHAR(100) NOT NULL,
+InsuranceID VARCHAR(100) NOT NULL,
+PRIMARY KEY(PatientID, InsuranceID),
+FOREIGN KEY(PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
+FOREIGN KEY(InsuranceID) REFERENCES Insurance(InsuranceID) ON DELETE CASCADE);
+
+CREATE TABLE Appointment(
+AppointmentID VARCHAR(100),
+AptType VARCHAR(100) NOT NULL,
+AptDate VARCHAR(100) NOT NULL,
+AptTime VARCHAR(50),
+AptDocterIDAssigned VARCHAR(100) ,
+PRIMARY KEY(AppointmentID)
+);
+
+
+CREATE TABLE PatientHasAppointment(
+PatientID VARCHAR(100),
+AppointmentID VARCHAR(100),
+PRIMARY KEY(PatientID, AppointmentID),
+FOREIGN KEY(PatientID) REFERENCES Patient(PatientID) ON DELETE    SET NULL,
+FOREIGN KEY(AppointmentID) REFERENCES Appointment(AppointmentID) ON DELETE SET NULL
+);
+
+
+
+CREATE TABLE Room(
+RoomID VARCHAR(100),
+FloorNumber VARCHAR(100) NOT NULL,
+ListOfPatientIds VARCHAR(1000) NOT NULL,
+typeOfRoom VARCHAR(50) ,
+Occupancy Integer,
+PRIMARY KEY(RoomID));
+
+
+CREATE TABLE IsAdmitted(
+PatientID VARCHAR(100),
+RoomID VARCHAR(100),
+PRIMARY KEY(PatientID, RoomID),
+FOREIGN KEY(PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
+FOREIGN KEY(RoomID) REFERENCES Room(RoomID) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE Service(
+ServicesID VARCHAR(100),
+PRIMARY KEY(ServicesID)
+);
+
+CREATE TABLE RoomNeedsService(
+ServicesID VARCHAR(100),
+RoomID VARCHAR(100),
+PRIMARY KEY(ServicesID, RoomID),
+FOREIGN KEY(ServicesID) REFERENCES Service(ServicesID) ON DELETE CASCADE,
+FOREIGN KEY(RoomID) REFERENCES Room(RoomID) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE Procedure(
+ProcedureID VARCHAR(100),
+ProcedureDescription VARCHAR(1000) NOT NULL,
+PRIMARY KEY(ProcedureID)
+);
+
+
+
+CREATE TABLE ProcedureConductedInRoom(
+ProcedureID VARCHAR(100),
+RoomID VARCHAR(100),
+PRIMARY KEY(ProcedureID, RoomID),
+FOREIGN KEY(ProcedureID) REFERENCES Procedure(ProcedureID) ON DELETE CASCADE,
+FOREIGN KEY(RoomID) REFERENCES Room(RoomID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE Department (
+DepartmentID VARCHAR(100),
+PRIMARY KEY(DepartmentID)
+);
+
+CREATE TABLE Hospital (
+HospitalID VARCHAR(100),
+PRIMARY KEY(HospitalID)
+);
+
+CREATE TABLE HospitalContainDepartment(
+DepartmentID VARCHAR(100),
+HospitalID VARCHAR(100),
+PRIMARY KEY(DepartmentID, HospitalID),
+FOREIGN KEY(DepartmentID) REFERENCES Department(DepartmentID) ON DELETE CASCADE,
+FOREIGN KEY(HospitalID) REFERENCES Hospital(HospitalID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE RoomIsPresentInDep(
+DepartmentID VARCHAR(100),
+RoomID VARCHAR(100),
+PRIMARY KEY(DepartmentID, RoomID),
+FOREIGN KEY(DepartmentID) REFERENCES Department(DepartmentID) ON DELETE CASCADE,
+FOREIGN KEY(RoomID) REFERENCES Room(RoomID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE ProcedureRequestedDuringApt(
+ProcedureID VARCHAR(100),
+AppointmentID VARCHAR(100),
+PRIMARY KEY(ProcedureID, AppointmentID),
+FOREIGN KEY(ProcedureID) REFERENCES Procedure(ProcedureID) ON DELETE CASCADE,
+FOREIGN KEY(AppointmentID) REFERENCES Appointment(AppointmentID) ON DELETE CASCADE
+);
+
+
+
+
+
+CREATE TABLE HospitalMakesApointments(
+HospitalID VARCHAR(100),
+AppointmentID VARCHAR(100),
+PRIMARY KEY(HospitalID, AppointmentID),
+FOREIGN KEY(HospitalID) REFERENCES Hospital(HospitalID) ON DELETE CASCADE,
+FOREIGN KEY(AppointmentID) REFERENCES Appointment(AppointmentID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE Prescription (
+PrescriptionID VARCHAR(100),
+PatientFNAME VARCHAR(100) NOT NULL,
+PatientLNAME VARCHAR(100) NOT NULL,
+Dosage VARCHAR(100),
+PRIMARY KEY(PrescriptionID)
+);
+
+
+CREATE TABLE Medicine (
+MedicineID VARCHAR(100),
+ManufactureName VARCHAR(100),
+Description VARCHAR(100),
+Price Integer NOT NULL,
+DateOfManufacture VARCHAR(100) NOT NULL,
+DateOfExpiration VARCHAR(100) NOT NULL,
+MedicineName VARCHAR(100),
+PRIMARY KEY(MedicineID)
+);
+
+
+CREATE TABLE PrescriptionHaveMedicine(
+PrescriptionID VARCHAR(100),
+MedicineID VARCHAR(100),
+PRIMARY KEY(PrescriptionID, MedicineID),
+FOREIGN KEY(PrescriptionID) REFERENCES Prescription(PrescriptionID) ON DELETE CASCADE,
+FOREIGN KEY(MedicineID) REFERENCES Medicine(MedicineID) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE AptGivenPrescription(
+PrescriptionID VARCHAR(100),
+AppointmentID VARCHAR(100),
+PRIMARY KEY(PrescriptionID, AppointmentID),
+FOREIGN KEY(PrescriptionID) REFERENCES Prescription(PrescriptionID) ON DELETE CASCADE,
+FOREIGN KEY(AppointmentID) REFERENCES Appointment(AppointmentID) ON DELETE CASCADE
+);
+
+ CREATE TABLE AppointmentNotes (
+NoteID VARCHAR(100),
+PatientLNAME VARCHAR(100) NOT NULL,
+PRIMARY KEY(NoteID)
+);
+
+
+CREATE TABLE AptHasNotes(
+AppointmentID VARCHAR(100),
+NoteID VARCHAR(100),
+PRIMARY KEY(NoteID, AppointmentID),
+FOREIGN KEY(NoteID) REFERENCES AppointmentNotes(NoteID) ON DELETE CASCADE,
+FOREIGN KEY(AppointmentID) REFERENCES Appointment(AppointmentID) ON DELETE CASCADE
+);
+
+CREATE TABLE HospitalHasService(
+ServicesID VARCHAR(100),
+HospitalID VARCHAR(100),
+PRIMARY KEY(ServicesID, HospitalID),
+FOREIGN KEY(ServicesID) REFERENCES Service(ServicesID) ON DELETE CASCADE,
+FOREIGN KEY(HospitalID) REFERENCES Hospital(HospitalID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE Employee (
+EmployeeID VARCHAR(100),
+EmployeeFNAME VARCHAR(100) NOT NULL,
+EmployeeLNAME VARCHAR(100) NOT NULL,
+GENDER VARCHAR(50) ,
+BIRTHDATE VARCHAR(50) ,
+Address VARCHAR(100) ,
+ContactName VARCHAR(100) ,
+PhoneNumber VARCHAR(100),
+PRIMARY KEY(EmployeeID)
+);
+
+CREATE TABLE EmployeeWorksForHospital(
+EmployeeID VARCHAR(100),
+HospitalID VARCHAR(100),
+PRIMARY KEY(EmployeeID, HospitalID),
+FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID) ON DELETE CASCADE,
+FOREIGN KEY(HospitalID) REFERENCES Hospital(HospitalID) ON DELETE CASCADE
+);
+
+CREATE TABLE Doctor(
+DoctorID  VARCHAR(100),
+DepartmentID VARCHAR(100) NOT NULL,
+PRIMARY KEY(DoctorID)
+);
+
+
+CREATE TABLE Nurse(
+NurseID  VARCHAR(100),
+DepartmentID VARCHAR(100) NOT NULL,
+PRIMARY KEY(NurseID)
+);
+
+
+CREATE TABLE Accountant(
+AccountantID  VARCHAR(100),
+DepartmentID VARCHAR(100) NOT NULL,
+PRIMARY KEY(AccountantID)
+);
+
+
+CREATE TABLE Pharmacist(
+PharmacistID  VARCHAR(100),
+DepartmentID VARCHAR(100) NOT NULL,
+PRIMARY KEY(PharmacistID)
+);
+
+CREATE TABLE DoctorWritesAptNotes(
+DoctorID VARCHAR(100),
+AppointmentID VARCHAR(100),
+NoteID VARCHAR(100),
+PRIMARY KEY(DoctorID, NoteID, AppointmentID),
+FOREIGN KEY(DoctorID) REFERENCES Doctor(DoctorID) ON DELETE CASCADE,
+FOREIGN KEY(NoteID) REFERENCES AppointmentNotes(NoteID) ON DELETE CASCADE,
+FOREIGN KEY(AppointmentID) REFERENCES Appointment(AppointmentID) ON DELETE CASCADE
+);
+
+CREATE TABLE DoctorGivesPrescription(
+DoctorID VARCHAR(100),
+PrescriptionID VARCHAR(100),
+PRIMARY KEY(DoctorID, PrescriptionID),
+FOREIGN KEY(DoctorID) REFERENCES Doctor(DoctorID) ON DELETE CASCADE,
+FOREIGN KEY(PrescriptionID) REFERENCES Prescription(PrescriptionID) ON DELETE CASCADE);
+
+
+
+CREATE TABLE Pharmacy(
+PharmacyID  VARCHAR(100),
+PRIMARY KEY(PharmacyID)
+);
+
+CREATE TABLE PharmacistWorkForPharmacy(
+PharmacyID VARCHAR(100),
+PharmacistID  VARCHAR(100),
+PRIMARY KEY(PharmacyID, PharmacistID),
+FOREIGN KEY(PharmacyID) REFERENCES Pharmacy(PharmacyID) ON DELETE CASCADE,
+FOREIGN KEY(PharmacistID) REFERENCES Pharmacist(PharmacistID) ON DELETE CASCADE
+);
+
+CREATE TABLE PharmacyContainsMedicine(
+PharmacyID VARCHAR(100),
+MedicineID  VARCHAR(100),
+PRIMARY KEY(PharmacyID, MedicineID),
+FOREIGN KEY(PharmacyID) REFERENCES Pharmacy(PharmacyID) ON DELETE CASCADE,
+FOREIGN KEY(MedicineID) REFERENCES Medicine(MedicineID) ON DELETE CASCADE
+);
+
+
