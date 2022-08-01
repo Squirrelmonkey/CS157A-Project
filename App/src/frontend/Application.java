@@ -1,5 +1,9 @@
 package frontend;
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Application {
 
@@ -14,11 +18,13 @@ public class Application {
         bClose.setBounds (100, 85, 80, 40);
         b1.addActionListener (e -> {
             startFrame.dispose ();
-            menu ();
+            try {
+                menu ();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
-        bClose.addActionListener (e -> {
-            startFrame.dispose ();
-        });
+        bClose.addActionListener (e -> {startFrame.dispose ();});
 
         startFrame.setSize (300, 200);
         startFrame.setLayout (null);
@@ -29,7 +35,7 @@ public class Application {
 
     }
 
-    static void menu() {
+    static void menu() throws IOException {
         JTextField t1;
         JButton b1, bClose, bText;
 
@@ -41,7 +47,8 @@ public class Application {
                 "PharmacistWorkForPharmacy", "Pharmacy", "PharmacyContainsMedicine", "Prescription",
                 "PrescriptionHaveMedicine", "Procedure", "ProcedureConductedInRoom", "ProcedureRequestedDuringApt",
                 "Room", "RoomIsPresentInDep", "Service"};
-        String[] requests = {"test"};
+
+        String[] AcceptedInputs = read().toArray(new String[0]);
 
         JFrame mFrame = new JFrame ("Menu");
         mFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -66,14 +73,21 @@ public class Application {
         bText.setBounds(99, 160, 80, 40);
 
         bText.addActionListener (e -> {
-            for (String request : requests) {
+            boolean errored = true;
+
+            for (String request : AcceptedInputs) {
                 if (request.equals(t1.getText())) {
                     mFrame.setVisible(false);
                     new Table(t1.getText());
                     mFrame.dispose ();
+                    errored = false;
+
                 }
+        }
+
+            if(errored){
+                error("Invalid Request");
             }
-            error("Invalid Request");
         });
 
         bClose = new JButton ("Close");
@@ -89,6 +103,18 @@ public class Application {
         mFrame.setLayout (null);
         mFrame.setLocationRelativeTo(null);
         mFrame.setVisible (true);
+    }
+
+    public static ArrayList<String> read() throws IOException {
+        ArrayList<String> AcceptedInputs = new ArrayList<>();
+
+        FileReader reader = new FileReader("Queries/UserInputList.txt");
+        BufferedReader bReader = new BufferedReader(reader);
+        while(bReader.ready()){
+            AcceptedInputs.add(bReader.readLine());
+        }
+
+        return(AcceptedInputs);
     }
 
     static void error(String errorText){

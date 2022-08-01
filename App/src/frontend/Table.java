@@ -3,6 +3,7 @@ package frontend;
 import javax.swing.*;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -100,7 +101,11 @@ public class Table extends JPanel {
                 JButton bBack = new JButton("Back");
                 bBack.addActionListener (e -> {
                     frame.dispose();
-                    Application.menu();
+                    try {
+                        Application.menu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
 
                 JPanel tPanel = new JPanel(new GridLayout(1, 0, 3, 3));

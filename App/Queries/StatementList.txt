@@ -1,0 +1,22 @@
+Employees born before March 1980
+SELECT * FROM Employee WHERE BIRTHDATE<=cast('1980-03-01' as date);
+Medicine within 2 years of expiration
+SELECT * FROM Medicine WHERE DateOfExpiration<=cast('2024-08-02' as date);
+Rooms reserved for Doctors Offices
+SELECT * FROM Room WHERE typeOfRoom='Office';
+All empty patient Rooms
+SELECT * FROM Room WHERE typeOfRoom='Patient' AND ListOfPatientIDs = '';
+All appointments made by doctors from Department 5
+SELECT appointmentID FROM appointment, doctor WHERE appointment.AptDocterIDAssigned = doctor.DoctorID AND doctor.DepartmentID = 'D5';
+Find unoccupied rooms
+SELECT RoomID, FloorNumber, typeOfRoom FROM Room WHERE ListOfPatientIDs = '';
+Find occupied rooms
+SELECT RoomID, ListOfPatientIDs, FloorNumber, typeOfRoom FROM Room WHERE NOT ListOfPatientIDs = '';
+Find unoccupied rooms on the first floor
+SELECT RoomID, FloorNumber, typeOfRoom FROM Room WHERE ListOfPatientIDs = '' AND FloorNumber = 1;
+How many offices on the fourth floor
+SELECT COUNT(*) FROM Room WHERE FloorNumber = 4 AND typeOfRoom = 'Office';
+Find average price of medicine
+SELECT AVG(Price) FROM Medicine;
+Find average price of insurance
+SELECT AVG(InsPrice) FROM Insurance;
