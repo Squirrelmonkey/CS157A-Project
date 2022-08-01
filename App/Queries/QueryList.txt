@@ -1,0 +1,11 @@
+SELECT * FROM Employee WHERE BIRTHDATE<=cast('1980-03-01' as date);
+SELECT * FROM Medicine WHERE DateOfExpiration<=cast('2024-08-02' as date);
+SELECT * FROM Room WHERE typeOfRoom='Office';
+SELECT * FROM Room WHERE typeOfRoom='Patient' AND ListOfPatientIDs = '';
+SELECT appointmentID FROM appointment, doctor WHERE appointment.AptDocterIDAssigned = doctor.DoctorID AND doctor.DepartmentID = 'D5';
+SELECT RoomID, FloorNumber, typeOfRoom FROM Room WHERE ListOfPatientIDs = '';
+SELECT RoomID, ListOfPatientIDs, FloorNumber, typeOfRoom FROM Room WHERE NOT ListOfPatientIDs = '';
+SELECT RoomID, FloorNumber, typeOfRoom FROM Room WHERE ListOfPatientIDs = '' AND FloorNumber = 1;
+SELECT COUNT(*) FROM Room WHERE FloorNumber = 4 AND typeOfRoom = 'Office';
+SELECT AVG(Price) FROM Medicine;
+SELECT AVG(InsPrice) FROM Insurance;

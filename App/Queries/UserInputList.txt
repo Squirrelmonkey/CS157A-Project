@@ -1,0 +1,11 @@
+Employees born before March 1980
+Medicine within 2 years of expiration
+Rooms reserved for Doctors Offices
+All empty patient rooms
+All appointments made by doctors from Department 5
+Find unoccupied rooms
+Find occupied rooms
+Find unoccupied rooms on the first floor
+How many offices on the fourth floor
+Find average price of medicine
+Find average price of insurance
