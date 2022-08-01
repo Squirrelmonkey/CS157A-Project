@@ -67,28 +67,32 @@ public class Table extends JPanel {
                         "Last Name",
                         "Sport",
                         "# of Years",
-                        "Vegetarian"};
+                        "Vegetarian","Vegetarian","Vegetarian","Vegetarian"};
 
                 Object[][] data = {
                         {"Kathy", "Smith",
                                 "Snowboarding", 5, "Boolean.FALSE"},
                         {"John", "Doe",
                                 "Rowing", 3, "Boolean.TRUE"},
+                        {"baa", "aoe",
+                                "Rowing", 6, "Boolean.TRUE"},
+                        {"aaa", "Doe",
+                                "Rowing", 1, "Boolean.TRUE"},
                 };
 
-                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-                model.addRow(new Object[]{"Prankster", "USA", "Microsoft Pvt Ltd", "Party'14", 900000});
+                DefaultTableModel model = new DefaultTableModel(data, columnNames);
+                /*model.addRow(new Object[]{"Prankster", "USA", "Microsoft Pvt Ltd", "Party'14", 900000});
                 model.addRow(new Object[]{"Prankster", "USA", "crosoft Pvt Ltd", "Party'14", 900000});
                 model.addRow(new Object[]{"rankster", "UA", "Microoft Pvt Ltd", "Party'14", 900000});
                 model.addRow(new Object[]{"Prankster", "USA", "Microsoft Pvt Ltd", "Party'14", 900000});
-
+*/
                 JTable table = new JTable(model);
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
                 table.setRowSorter(sorter);
 
                 List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
-                sortKeys.add(new RowSorter.SortKey(4, SortOrder.ASCENDING));
                 sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
                 sorter.setSortKeys(sortKeys);
 
                 JFrame frame = new JFrame(title);

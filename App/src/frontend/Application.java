@@ -41,14 +41,13 @@ public class Application {
                 "PharmacistWorkForPharmacy", "Pharmacy", "PharmacyContainsMedicine", "Prescription",
                 "PrescriptionHaveMedicine", "Procedure", "ProcedureConductedInRoom", "ProcedureRequestedDuringApt",
                 "Room", "RoomIsPresentInDep", "Service"};
-
+        String[] requests = {"test"};
 
         JFrame mFrame = new JFrame ("Menu");
         mFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 
         JComboBox<String> dropDown = new JComboBox<>(hospitalTables);
         dropDown.setBounds(60, 20, 160, 30);
-
 
         b1 = new JButton ("Check Table");
         b1.setBounds (80, 60, 120, 40);
@@ -65,10 +64,16 @@ public class Application {
 
         bText = new JButton("Query");
         bText.setBounds(99, 160, 80, 40);
+
         bText.addActionListener (e -> {
-            System.out.println (t1.getText());
-            mFrame.setVisible (false);
-            new Table(t1.getText());
+            for (String request : requests) {
+                if (request.equals(t1.getText())) {
+                    mFrame.setVisible(false);
+                    new Table(t1.getText());
+                    mFrame.dispose ();
+                }
+            }
+            error("Invalid Request");
         });
 
         bClose = new JButton ("Close");
@@ -84,6 +89,25 @@ public class Application {
         mFrame.setLayout (null);
         mFrame.setLocationRelativeTo(null);
         mFrame.setVisible (true);
+    }
+
+    static void error(String errorText){
+        JFrame errorFrame = new JFrame();
+
+        JLabel errorLabel = new JLabel();
+        errorLabel.setText(errorText);
+        errorLabel.setBounds(20, 20, 100, 20 );
+
+        JButton e1 = new JButton("Ok");
+        e1.setBounds (35, 50, 50, 30);
+        e1.addActionListener (e -> errorFrame.dispose ());
+
+        errorFrame.add(errorLabel);
+        errorFrame.add(e1);
+        errorFrame.setSize (100, 130);
+        errorFrame.setLayout (null);
+        errorFrame.setLocationRelativeTo(null);
+        errorFrame.setVisible (true);
     }
 
     public static void main(String[] args) {
