@@ -1,5 +1,6 @@
 package frontend;
 import javax.swing.*;
+import java.io.PrintWriter;
 
 public class Application {
 
@@ -54,6 +55,7 @@ public class Application {
         b1.addActionListener (e -> {
             String tableTitle = dropDown.getItemAt(dropDown.getSelectedIndex());
             System.out.println(tableTitle);
+            queryTable(tableTitle);
             mFrame.dispose ();
             new Table(tableTitle);
         });
@@ -108,6 +110,18 @@ public class Application {
         errorFrame.setLayout (null);
         errorFrame.setLocationRelativeTo(null);
         errorFrame.setVisible (true);
+    }
+    
+    static void queryTable(String tableTitle){
+        String data = "SELECT* FROM " + tableTitle;
+        try {
+            PrintWriter output = new PrintWriter("query.txt");
+            output.print(data);
+            output.close();
+        }
+        catch(Exception e) {
+            e.getStackTrace();
+        }       
     }
 
     public static void main(String[] args) {
