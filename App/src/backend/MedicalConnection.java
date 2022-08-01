@@ -63,7 +63,9 @@ public class MedicalConnection {
 
     public static void main(String[] args)
     {
-        File DataFile = new File(args[0]+".txt");
+        //File DataFile = new File(args[0]+".txt");
+        File DataFile = new File("Queries/QueryList.txt");
         MedicalConnection.connect(DataFile);
+
     }
 }
