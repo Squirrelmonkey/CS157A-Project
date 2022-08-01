@@ -1,5 +1,3 @@
-Employees born before March 1980
-Medicine within 2 years of expiration
 Rooms reserved for Doctors Offices
 All empty patient rooms
 All appointments made by doctors from Department 5

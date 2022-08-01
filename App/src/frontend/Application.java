@@ -1,11 +1,10 @@
 package frontend;
+import backend.MedicalConnection;
+
 import javax.swing.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.io.PrintWriter;
 
 
 public class Application {
@@ -51,7 +50,8 @@ public class Application {
                 "PrescriptionHaveMedicine", "Procedure", "ProcedureConductedInRoom", "ProcedureRequestedDuringApt",
                 "Room", "RoomIsPresentInDep", "Service"};
 
-        String[] AcceptedInputs = read().toArray(new String[0]);
+        String[] AcceptedInputs = read("Queries/UserInputList.txt").toArray(new String[0]);
+        String[] Queries = read("Queries/QueryList.txt").toArray(new String[0]);
 
         JFrame mFrame = new JFrame ("Menu");
         mFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -109,10 +109,10 @@ public class Application {
         mFrame.setVisible (true);
     }
 
-    public static ArrayList<String> read() throws IOException {
+    public static ArrayList<String> read(String filePath) throws IOException {
         ArrayList<String> AcceptedInputs = new ArrayList<>();
 
-        FileReader reader = new FileReader("Queries/UserInputList.txt");
+        FileReader reader = new FileReader(filePath);
         BufferedReader bReader = new BufferedReader(reader);
         while(bReader.ready()){
             AcceptedInputs.add(bReader.readLine());
@@ -155,5 +155,7 @@ public class Application {
     public static void main(String[] args) {
         //Application application = new Application ();
         start ();
+        //MedicalConnection med = new MedicalConnection();
+        //med.connect(new File("Queries/QueryList.txt"));
     }
 }
