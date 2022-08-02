@@ -65,6 +65,7 @@ public class Application {
             String tableTitle = dropDown.getItemAt(dropDown.getSelectedIndex());
             System.out.println(tableTitle);
             queryTable(tableTitle);
+            MedicalConnection.connect(new File("query.txt"), new File("results.txt"));
             mFrame.dispose ();
             new Table(tableTitle);
         });

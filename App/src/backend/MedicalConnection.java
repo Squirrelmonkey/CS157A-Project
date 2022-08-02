@@ -1,11 +1,12 @@
+package backend;
+
 import java.lang.*;
 import java.util.*;
 import java.sql.*;
 import java.io.*;
 
 public class MedicalConnection {
-        public static void connect(File DataFromUI, File ResultFile)
-        {
+    public static void connect(File DataFromUI, File ResultFile) {
                 System.out.println("I am in!");
                 try {
                         Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -36,7 +37,7 @@ public class MedicalConnection {
                                 String data = myReader.nextLine();
                                 System.out.println(data);
                                 String sql=data;
-                                        s.executeQuery(sql);
+                                    s.executeQuery(sql);
                                         ResultSet res = s.getResultSet();
                                         ResultSetMetaData meta = res.getMetaData();
                                         int count = meta.getColumnCount();
