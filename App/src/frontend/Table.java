@@ -128,7 +128,7 @@ public class Table extends JPanel {
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine = br.readLine();
-            String[] collumns  = strLine.split("\\s+");
+            String[] collumns  = strLine.split("\\t");
             return collumns;
         } catch (Exception e){
             System.err.println("Error: " + e.getMessage());
@@ -155,12 +155,12 @@ public class Table extends JPanel {
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine = br.readLine();
-            String[] rowData = strLine.split("\\s+");
+            String[] rowData = strLine.split("\\t");
             Object[][] data = new Object[lines][rowData.length];
             int i = -1;
             while ((strLine = br.readLine()) != null)   {
                 i++;
-                rowData = strLine.split("\\s+");
+                rowData = strLine.split("\\t");
                 for(int j = 0; j < rowData.length; j++){
                     data[i][j] = rowData[j];
                 } 
