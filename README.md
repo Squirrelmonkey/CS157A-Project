@@ -18,6 +18,9 @@ UserInputList.txt and copy the corresponding query int Queries/QueryList.txt int
 MedicalConnection.connect. Once MedicalConnection runs the query, it will return the results.txt back to Application where it will create a table to display
 it.
 
+# How to run
+Run "Application" in "App/src"
+
 # Known Issues
 One of the major issues we ran into was when we finsihed development, we had trouble connecting it to our application. This was caused by the software that 
 developed the backend was made using a linux system and the application being developed on window systems. We were unable to use the frontend and backend 
