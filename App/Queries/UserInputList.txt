@@ -1,4 +1,4 @@
-Rooms reserved for Doctors Offices
+Rooms reserved for patients
 All empty patient rooms
 All appointments made by doctors from Department 5
 Find unoccupied rooms
