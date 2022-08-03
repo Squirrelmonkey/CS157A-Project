@@ -1,3 +1,11 @@
+/*
+CS 157A Sec 62
+Hospital Database
+Matthew Legler 
+Aarohi Chopra
+Mark Saweres
+*/
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
