@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Application {
 
-    private static void start() {
+    private static void start() {                                   //Create start up menu using JFrame
         JButton b1, bClose;
         JFrame startFrame = new JFrame ("Hospital Database");
         startFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -34,16 +34,16 @@ public class Application {
         startFrame.setLayout (null);
         startFrame.add (b1);
         startFrame.add (bClose);
-        startFrame.setLocationRelativeTo(null);
+        startFrame.setLocationRelativeTo(null);         //Default middle of screen
         startFrame.setVisible (true);
 
     }
 
-    static void menu() throws IOException {
+    static void menu() throws IOException {             //Create main menu using JFrame
         JTextField t1;
         JButton b1, bClose, bText;
 
-        String[] hospitalTables = {"Accountant", "Appointment", "AppointmentNotes", "AptGivenPrescription",
+        String[] hospitalTables = {"Accountant", "Appointment", "AppointmentNotes", "AptGivenPrescription",         //Drop down menu options
                 "AptHasNotes", "Department", "Doctor", "DoctorGivesPrescription", "DoctorWritesAptNotes",
                 "Employee", "EmployeeWorksForHospital", "Hospital", "HospitalContainDepartment",
                 "HospitalHasService", "HospitalMakesAppointments", "Insurance", "HasInsurance", "IsAdmitted",
@@ -52,27 +52,27 @@ public class Application {
                 "PrescriptionHaveMedicine", "Procedure", "ProcedureConductedInRoom", "ProcedureRequestedDuringApt",
                 "Room", "RoomIsPresentInDep", "Service"};
 
-        String[] AcceptedInputs = read("Queries/UserInputList.txt").toArray(new String[0]);
-        String[] Queries = read("Queries/QueryList.txt").toArray(new String[0]);
+        String[] AcceptedInputs = read("Queries/UserInputList.txt").toArray(new String[0]);         //Reads UserInputList into array for checking against user input to see if its a valid option
+        String[] Queries = read("Queries/QueryList.txt").toArray(new String[0]);                    //Reads QueryList into array for getting corresponding valid statement from UserInputlist
 
-        JFrame mFrame = new JFrame ("Menu");
+        JFrame mFrame = new JFrame ("Menu");                //main JFrame
         mFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 
         JComboBox<String> dropDown = new JComboBox<>(hospitalTables);
         dropDown.setBounds(60, 20, 160, 30);
 
-        b1 = new JButton ("Check Table");
+        b1 = new JButton ("Check Table");               //Handles option selected from drop down menu
         b1.setBounds (80, 60, 120, 40);
         b1.addActionListener (e -> {
-            String tableTitle = dropDown.getItemAt(dropDown.getSelectedIndex());
+            String tableTitle = dropDown.getItemAt(dropDown.getSelectedIndex());    //gets selected drop down
             System.out.println(tableTitle);
-            queryTable(tableTitle);
-            MedicalConnection.connect(new File("query.txt"), new File("results.txt"));
+            queryTable(tableTitle);             //write query to query.txt
+            MedicalConnection.connect(new File("query.txt"), new File("results.txt"));  //send to MedicalConnection and get back results.txt
             mFrame.dispose ();
-            Table(tableTitle);
+            Table(tableTitle);      //fill and display table using updated result.txt
         });
 
-        t1 = new JTextField();
+        t1 = new JTextField();              //User inputted queries
         t1.setLocation(60, 120);
         t1.setSize(160, 30);
 
@@ -82,22 +82,21 @@ public class Application {
         bText.addActionListener (e -> {
             boolean errored = true;
 
-            for (String request : AcceptedInputs) {
+            for (String request : AcceptedInputs) {         //Check if user inputted statement is a recognized statement
                 if (request.equals(t1.getText())) {
                     mFrame.setVisible(false);
-                    Table(t1.getText());
+                    Table(t1.getText());                    //Send valid statement to Table
                     mFrame.dispose ();
                     errored = false;
 
                 }
-        }
-
+            }
             if(errored){
-                error("Invalid Request");
+                error("Invalid Request");           //When user input doesn't match a known statement
             }
         });
 
-        bClose = new JButton ("Close");
+        bClose = new JButton ("Close");                 //exits program
         bClose.setBounds (99, 220, 80, 40);
         bClose.addActionListener (e -> mFrame.dispose ());
 
@@ -112,7 +111,7 @@ public class Application {
         mFrame.setVisible (true);
     }
 
-    public static ArrayList<String> read(String filePath) throws IOException {
+    public static ArrayList<String> read(String filePath) throws IOException { //reads a text file into an array list
         ArrayList<String> AcceptedInputs = new ArrayList<>();
 
         FileReader reader = new FileReader(filePath);
@@ -124,7 +123,7 @@ public class Application {
         return(AcceptedInputs);
     }
 
-    static void error(String errorText){
+    static void error(String errorText){ //error message when inputting invalid statement to textbox
         JFrame errorFrame = new JFrame();
 
         JLabel errorLabel = new JLabel();
@@ -143,7 +142,7 @@ public class Application {
         errorFrame.setVisible (true);
     }
     
-    static void queryTable(String tableTitle){
+    static void queryTable(String tableTitle){   //creates total table query for Check Table action (drop down menu option)
         String data = "SELECT* FROM " + tableTitle;
         try {
             PrintWriter output = new PrintWriter("query.txt");
@@ -155,7 +154,7 @@ public class Application {
         }       
     }
 
-    public static void Table(String title) {
+    public static void Table(String title) {        //creates table that will display database contents
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -165,8 +164,8 @@ public class Application {
                     ex.printStackTrace();
                 }
 
-                String[] columnNames = getColumnNames();
-                Object[][] data = getData();
+                String[] columnNames = getColumnNames();    //first row of results.txt will be used for column names
+                Object[][] data = getData();                // rest of results.txt goes here
 
 
                 DefaultTableModel model = new DefaultTableModel(data, columnNames);
@@ -175,12 +174,12 @@ public class Application {
                 table.setRowSorter(sorter);
 
                 List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
-                sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-                sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING)); //sort by first column
+                sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING)); //then sort by second column with lower priority
 
-                JFrame frame = new JFrame(title);
+                JFrame frame = new JFrame(title);           //main table frame
 
-                JButton bBack = new JButton("Back");
+                JButton bBack = new JButton("Back");   //returns to menu() frame
                 bBack.addActionListener (e -> {
                     frame.dispose();
                     try {
@@ -190,10 +189,10 @@ public class Application {
                     }
                 });
 
-                JPanel tPanel = new JPanel(new GridLayout(1, 0, 3, 3));
+                JPanel tPanel = new JPanel(new GridLayout(1, 0, 3, 3));     //displays the contents of database in a table
                 tPanel.add(bBack);
 
-                JPanel mPanel = new JPanel();
+                JPanel mPanel = new JPanel();       //for scrolling data
 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 mPanel.add(tPanel, BorderLayout.LINE_START);
@@ -206,8 +205,7 @@ public class Application {
         });
     }
 
-    public static String[] getColumnNames(){
-
+    public static String[] getColumnNames(){    //parses data and turns it into a form that can be properly formatted for column names
         try{
             FileInputStream fstream = new FileInputStream("results.txt");
             DataInputStream in = new DataInputStream(fstream);
@@ -220,7 +218,7 @@ public class Application {
         }
     }
 
-    public static Object[][] getData(){
+    public static Object[][] getData(){     //parses data and turns it into a form that can be properly formatted for inserting into rows
         int lines = 0;
         try{
             BufferedReader reader = new BufferedReader(new FileReader("results.txt"));
@@ -253,9 +251,6 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        //Application application = new Application ();
         start ();
-        //MedicalConnection med = new MedicalConnection();
-        //med.connect(new File("Queries/QueryList.txt"));
     }
 }
